@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>cookie free videos</title>
+        <style>
+            html {
+                background-color: #f3fff2;
+            }
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: white;
+            }
+            .title {
+                background-color: lightGreen;
+                font-family: Verdana;
+                font-size: 22px;
+                text-align: center;
+                padding: 5px;
+            }
+            button {
+                background-color: white;
+                border: none;
+                color: black;
+                padding: 6px 18px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 20px;
+                cursor: pointer;
+            }
+            select {
+                background-color: white;
+                border: none;
+                color: black;
+                padding: 6px 18px;
+                text-align: center;
+                display:inline-block;
+                font-size: 20px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <button onclick="refresh()" class="title">cookie free videos🍪</button>
+            <button onclick="closeVideo()">show search box</button>
+            <button onclick="howToUse()">how to use</button>
+            <select id="selectLang">
+                <option value="japanese">Japanese</option>
+                <option value="english">English</option>
+            </select>
+        </ul>
+        <iframe id="cseFrame" src="english.html" width="100%" height="640" frameborder="0" hidden></iframe>
+        <iframe id="cseFrameJ" src="japanese.html" width="100%" height="640" frameborder="0"></iframe>
+        <div id="videoIframe"><iframe src="" hidden></iframe></div>
+        <script>
+            var selectedLang = "japanese";
+            var selectElement = document.getElementById("selectLang");
+            var iframe = document.getElementById("videoIframe");
+            var cseFrame = document.getElementById("cseFrame");
+            var cseFrameJ = document.getElementById("cseFrameJ");
+
+            // Detect change of select
+            selectElement.addEventListener("change",function(event){
+                selectedLang = event.target.value;
+                if (selectedLang == "japanese"){
+                    cseFrameJ.hidden = false;
+                    cseFrame.hidden = true;
+                } else {
+                    cseFrameJ.hidden = true;
+                    cseFrame.hidden = false;
+                }
+            });
+
+            // Listen for messages from iframe
+            window.addEventListener('message', function(event) {
+                if (event.data.type === 'link-clicked') {
+                    var rawURL = event.data.url;
+                    rawURL = rawURL.slice(3);
+                    const index = rawURL.indexOf("https://");
+                    const videoURL = rawURL.slice(index);
+                    const videoId = urlToYoutubeId(videoURL);
+                    cseFrame.hidden = true;
+                    cseFrameJ.hidden = true;
+                    iframe.innerHTML = `<iframe width="${window.innerWidth-16}" height="${window.innerWidth/16*9-9}" src="https://www.youtube-nocookie.com/embed/${videoId}" allowfullscreen picture-in-picture frameborder="0" marginheight="0" marginewidth="0"></iframe>`;
+                }
+            });
+
+            function urlToYoutubeId(url) {
+                url = decodeURIComponent(url); //decode
+                // Handle youtu.be format
+                let match = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+                if (match) return match[1];
+                
+                // Handle youtube.com/watch?v= format
+                match = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
+                if (match) return match[1];
+                
+                // Handle youtube.com/embed/ format
+                match = url.match(/embed\/([a-zA-Z0-9_-]{11})/);
+                if (match) return match[1];
+
+                return null; // returned when no match
+            }
+
+            function closeVideo(){
+                iframe.innerHTML = '<iframe width="10" height="10" src="" hidden></iframe>';
+                if (selectedLang == "japanese"){
+                    cseFrameJ.hidden = false;
+                } else {
+                    cseFrame.hidden = false;
+                }
+            }
+
+            function howToUse(){
+                if (selectedLang == "japanese"){
+                    iframe.innerHTML = `<iframe width="${window.innerWidth-10}" height="${window.innerHeight-10}" src="howToUseJP.html" frameborder="0" marginheight="0" marginewidth="0"></iframe>`;
+                    cseFrame.hidden = true;
+                    cseFrameJ.hidden = true;
+                } else {
+                    iframe.innerHTML = `<iframe width="${window.innerWidth-10}" height="${window.innerHeight-10}" src="howToUse.html" frameborder="0" marginheight="0" marginewidth="0"></iframe>`;
+                    cseFrame.hidden = true;
+                    cseFrameJ.hidden = true;
+                }
+            }
+
+            function refresh(){
+                location.reload();
+            }
+        </script>
+    </body>
+</html>
