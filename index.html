@@ -78,18 +78,22 @@
         </style>
     </head>
     <body>
-        <ul>
             <button onclick="refresh()" class="title">cookie free videos🍪</button>
-            <button onclick="closeVideo()">show search box</button>
-            <button onclick="howToUse()">how to use</button>
+            <button onclick="closeVideo()" class="addBoarder">show search box</button>
+            <button onclick="howToUse()" class="addBoarder">how to use</button>
             <select id="selectLang">
-                <option value="japanese">Language: Japanese</option>
-                <option value="english">Language: English</option>
+                <option value="japanese">Japanese</option>
+                <option value="english">English</option>
             </select>
+            <form id="myForm" onsubmit="return handleForm(event)">
+                <label for="fname">url: </label>
+                <input type="text" id="videoURL" name="videoURL">
+                <input type="submit" id="search" name="search" value="open">
+            </form>
         </ul>
-        <iframe id="cseFrame" src="english.html" width="100%" height="640" frameborder="0" hidden></iframe>
-        <iframe id="cseFrameJ" src="japanese.html" width="100%" height="640" frameborder="0"></iframe>
-        <div id="videoIframe"><iframe src="" hidden></iframe></div>
+        <iframe id="cseFrame" src="lib/index2.html" width="100%" height="640" frameborder="0" hidden></iframe>
+        <iframe id="cseFrameJ" src="lib/japanese.html" width="100%" height="640" frameborder="0"></iframe>
+        <div id="videoIframe"><iframe src="https://example.com" hidden></iframe></div>
         <script>
             var selectedLang = "japanese";
             var selectElement = document.getElementById("selectLang");
@@ -97,6 +101,20 @@
             var cseFrame = document.getElementById("cseFrame");
             var cseFrameJ = document.getElementById("cseFrameJ");
 
+            //open url
+            function handleForm(event) {
+                event.preventDefault();
+                const input = document.getElementById('videoURL');
+                if (input) {
+                    const videoId = urlToYoutubeId(input.value);
+                    cseFrame.hidden = true;
+                    cseFrameJ.hidden = true;
+                    iframe.innerHTML = `<iframe width="${window.innerWidth-16}" height="${window.innerWidth/16*9-9}" src="https://www.youtube-nocookie.com/embed/${videoId}" allowfullscreen picture-in-picture frameborder="0" marginheight="0" marginewidth="0"></iframe>`;
+
+                }
+                return false;
+            }
+            
             // Detect change of select
             selectElement.addEventListener("change",function(event){
                 selectedLang = event.target.value;
