@@ -77,12 +77,12 @@
             }
         </style>
     </head>
-    <body>
+    <body onload="loadSettings()">
         <ul>
             <button onclick="refresh()" class="title">cookie free videos🍪</button>
             <button onclick="closeVideo()" class="addBoarder">show search box</button>
             <button onclick="howToUse()" class="addBoarder">how to use</button>
-            <select id="selectLang">
+            <select id="selectLang" onchange="saveSettings(this.value)">
                 <option value="japanese">Japanese</option>
                 <option value="english">English</option>
             </select>
@@ -101,6 +101,18 @@
             var iframe = document.getElementById("videoIframe");
             var cseFrame = document.getElementById("cseFrame");
             var cseFrameJ = document.getElementById("cseFrameJ");
+            var input = document.getElementById("videURL").value;
+            var langSelector = document.getElementById("selectLang");
+
+            function loadSettings(){
+                selectedLang = localStorage.getItem("langage");
+                alert(`lang: ${selectedLang}`);
+                langSelector.value = selectedLang;
+            }
+
+            function saveSettings(currentLang){
+                localStorage.setItem("language",currentLang);
+            }
 
             //open url
             function handleForm(event) {
