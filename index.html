@@ -105,9 +105,8 @@
             var langSelector = document.getElementById("selectLang");
 
             function loadSettings(){
-                selectedLang = localStorage.getItem("langage");
-                alert(`lang: ${selectedLang}`);
-                langSelector.value = selectedLang;
+                selectedLang = localStorage.getItem("language");
+                document.getElementById("selectLang").value = selectedLang;
             }
 
             function saveSettings(currentLang){
