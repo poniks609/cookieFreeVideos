@@ -106,10 +106,10 @@
             var langSelector = document.getElementById("selectLang");
 
             function loadSettings(){
-                selectedLang = localStorage.getItem("language");
-                if (selectedLang != undefined){
-                    document.getElementById("selectLang").value = selectedLang;
-                    changeLang(selectedLang);
+                var lang = localStorage.getItem("language");
+                if (lang != undefined){
+                    document.getElementById("selectLang").value = lang;
+                    changeLang(lang);
                 }
             }
 
@@ -127,7 +127,7 @@
                 } else {
                     cseFrameJ.hidden = true;
                     cseFrame.hidden = false;
-                    selectedLang = "english"
+                    selectedLang = "english";
                 }
             }
 
