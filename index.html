@@ -282,12 +282,12 @@
             }
         </style>
     </head>
-    <body onload="loadSettings()">
+    <body>
         <ul>
             <button onclick="refresh()" class="title">cookie free videos🍪</button>
             <button onclick="closeVideo()" class="addBoarder">show search box</button>
             <button onclick="howToUse()" class="addBoarder">how to use</button>
-            <select id="selectLang" onchange="saveSettings(this.value)">
+            <select id="selectLang">
                 <option value="japanese">Japanese</option>
                 <option value="english">English</option>
             </select>
@@ -306,20 +306,6 @@
             var iframe = document.getElementById("videoIframe");
             var cseFrame = document.getElementById("cseFrame");
             var cseFrameJ = document.getElementById("cseFrameJ");
-            var input = document.getElementById("videURL").value;
-            var langSelector = document.getElementById("selectLang");
-
-            function loadSettings(){
-                selectedLang = localStorage.getItem("langage");
-                alert(`lang: ${selectedLang}`);
-                langSelector.value = selectedLang;
-                selectedLang = localStorage.getItem("language");
-                document.getElementById("selectLang").value = selectedLang;
-            }
-
-            function saveSettings(currentLang){
-                localStorage.setItem("language",currentLang);
-            }
 
             //open url
             function handleForm(event) {
@@ -334,7 +320,7 @@
                 }
                 return false;
             }
-
+            
             // Detect change of select
             selectElement.addEventListener("change",function(event){
                 selectedLang = event.target.value;
@@ -366,11 +352,11 @@
                 // Handle youtu.be format
                 let match = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
                 if (match) return match[1];
-
+                
                 // Handle youtube.com/watch?v= format
                 match = url.match(/[?&]v=([a-zA-Z0-9_-]{11})/);
                 if (match) return match[1];
-
+                
                 // Handle youtube.com/embed/ format
                 match = url.match(/embed\/([a-zA-Z0-9_-]{11})/);
                 if (match) return match[1];
