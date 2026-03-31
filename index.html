@@ -83,7 +83,7 @@
             <button onclick="refresh()" class="title">cookie free videos🍪</button>
             <button onclick="closeVideo()" class="addBoarder">show search box</button>
             <button onclick="howToUse()" class="addBoarder">how to use</button>
-            <select id="selectLang" onchange="saveSettings(this.value)">
+            <select id="selectLang" onchange="langChanged(this.value)">
                 <option value="japanese">Japanese</option>
                 <option value="english">English</option>
             </select>
@@ -107,11 +107,26 @@
 
             function loadSettings(){
                 selectedLang = localStorage.getItem("language");
-                document.getElementById("selectLang").value = selectedLang;
+                if (selectedLang != undefined){
+                    document.getElementById("selectLang").value = selectedLang;
+                    changeLang(selectedLang);
+                }
             }
 
-            function saveSettings(currentLang){
+            function langChanged(currentLang){
                 localStorage.setItem("language",currentLang);
+                changeLang(currentLang);
+            }
+
+            // change langage
+            function changeLang(lang){
+                if (lang == "japanese"){
+                    cseFrameJ.hidden = false;
+                    cseFrame.hidden = true;
+                } else {
+                    cseFrameJ.hidden = true;
+                    cseFrame.hidden = false;
+                }
             }
 
             //open url
@@ -127,18 +142,6 @@
                 }
                 return false;
             }
-            
-            // Detect change of select
-            selectElement.addEventListener("change",function(event){
-                selectedLang = event.target.value;
-                if (selectedLang == "japanese"){
-                    cseFrameJ.hidden = false;
-                    cseFrame.hidden = true;
-                } else {
-                    cseFrameJ.hidden = true;
-                    cseFrame.hidden = false;
-                }
-            });
 
             // Listen for messages from iframe
             window.addEventListener('message', function(event) {
