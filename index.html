@@ -7,12 +7,11 @@
       const divElement = document.getElementById("answer");
 
       window.addEventListener("load", (event) => {
-        var key = window.location.href.split("?key=")[1]; //43875
+        var key = window.location.href.split("?key=")[1];
         if (key==undefined){
           var data = localStorage.getItem("data");
           divElement.innerHTML = data;
         } else {
-          //var text = '<iframe src="https://run.plnkr.co/plunks/v1XMMdFK7PsP3Uz5/#gsc.tab=0" width=100% height=100%></iframe>'
           var encodedText = "ꮟꯌꯉꯕꯄꯐꯈꮃꯖꯕꯆꮠꮅꯋꯗꯗꯓꯖꮝꮒꮒꯕꯘꯑꮑꯓꯏꯑꯎꯕꮑꯆꯒꮒꯓꯏꯘꯑꯎꯖꮒꯙꮔꮻꮰꮰꯇꮩꮮꮚꮳꯖꮳꮖꮸꯝꮘꮒꮆꯊꯖꯆꮑꯗꯄꯅꮠꮓꮅꮃꯚꯌꯇꯗꯋꮠꮅꮔꮓꮓꮈꮅꮃꯖꯗꯜꯏꯈꮠꮅꯋꯈꯌꯊꯋꯗꮝꮃꮔꮓꮓꯙꯋꮞꮅꮃꯉꯕꯄꯐꯈꯅꯒꯕꯇꯈꯕꮠꮅꮓꮅꮡꮟꮒꯌꯉꯕꯄꯐꯈꮡ";
           var decodedText = someFunction(encodedText, -key);
           divElement.innerHTML = decodedText;
